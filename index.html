@@ -29,6 +29,36 @@
       --line:#e5dccd;            /* ruled-paper line */
     }
 
+    /* --------------------- reveal of home after loader ------------------ */
+    :root{ --ease: cubic-bezier(.22,1,.36,1); }
+
+  /* generic reveal */
+  .reveal{
+    opacity:0;
+    will-change: transform, opacity;
+    transition:
+      transform .7s var(--ease) var(--d,0s),
+      opacity   .7s var(--ease) var(--d,0s);
+  }
+  /* variants */
+  .reveal.fade-up    { transform: translateY(18px); }
+  .reveal.slide-right{ transform: translateX(-24px); }   /* for sidebar buttons */
+  .reveal.swing-down { transform-origin: top center; transform: rotateX(-60deg) translateY(-6px); }
+
+  /* active state */
+  .reveal.in{ opacity:1; transform: none; }
+
+  /* optional swing keyframe if you want overshoot */
+  .reveal.swing-down.in{
+    animation: swingIn .7s var(--ease) var(--d,0s) both;
+  }
+  @keyframes swingIn{
+    0%   { opacity:0; transform: rotateX(-70deg) translateY(-8px); }
+    60%  { opacity:1; transform: rotateX(8deg) translateY(2px); }
+    100% { opacity:1; transform: rotateX(0) translateY(0); }
+  }
+
+  /* ----------------------- generic styles --------------------------------*/
     .body-text {
       font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
                   "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
@@ -83,6 +113,10 @@
     gap:clamp(12px,3vw,32px); /* space between rows */
     flex-wrap:wrap; /* allow stacking on very small screens */
   }
+  .ransom-style-name.in {
+  opacity: 1;
+  animation: swingIn 0.8s cubic-bezier(.22,1,.36,1) both;
+}
 
 .name-banner{
   width:100%;
@@ -330,6 +364,27 @@
       to { transform: scale(1.4); opacity: 0; }
     }
 
+    /* While loader is visible, don’t paint the reveal elements at all */
+html.loading .reveal,
+html.loading .ransom-style-name {
+  visibility: hidden;           /* prevents the “preloaded” flash */
+}
+
+/* When we’re about to reveal, allow paint but keep start state */
+html.prereveal .reveal,
+html.prereveal .ransom-style-name {
+  visibility: visible;
+}
+
+/* Smoother 3D swing & transforms */
+.ransom-style-name,
+.reveal {
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+
+
 
   </style>
 
@@ -357,15 +412,15 @@
   <div id="loader-percent" class="text-sm font-medium">0%</div>
 </div>
 
-
+<div id="app">
   <!-- Sidebar -->
   <nav class="hidden md:flex fixed left-0 top-0 h-full w-20 flex-col items-center justify-start pt-6 space-y-5 z-50">
-  <a href="#home"      class="tab p-3 floaty" style="animation-delay:.0s">🏠</a>
-  <a href="#about"     class="tab p-3 floaty" style="animation-delay:.2s">👤</a>
-  <a href="#experience"class="tab p-3 floaty" style="animation-delay:.4s">💼</a>
-  <a href="#projects"  class="tab p-3 floaty" style="animation-delay:.6s">🧩</a>
-  <a href="#skills"    class="tab p-3 floaty" style="animation-delay:.8s">⭐</a>
-  <a href="#contact"   class="tab p-3 floaty" style="animation-delay:1.0s">✉️</a>
+  <a href="#home"      class="tab p-3 floaty" style="--d:.10s animation-delay:.0s">🏠</a>
+  <a href="#about"     class="tab p-3 floaty" style="--d:.20s animation-delay:.2s">👤</a>
+  <a href="#experience"class="tab p-3 floaty" style="--d:.25s animation-delay:.4s">💼</a>
+  <a href="#projects"  class="tab p-3 floaty" style="--d:.30s animation-delay:.6s">🧩</a>
+  <a href="#skills"    class="tab p-3 floaty" style="--d:.35s animation-delay:.8s">⭐</a>
+  <a href="#contact"   class="tab p-3 floaty" style="--d:.45s animation-delay:1.0s">✉️</a>
 </nav>
 
 
@@ -383,8 +438,8 @@
         <img src="assets/Rahman-banner-name.svg" class="name-banner" alt="Rahman">
       </div>
 
-      <p class="cursive">Creative Software Developer</p>
-      <p class="mt-4 text-slate-800">
+      <p class="reveal fade-up cursive" style="--d:.10s">Creative Software Developer</p>
+      <p class="reveal fade-up text-lg leading-relaxed mt-4 text-slate-800 " style="--d:.10s">
         I’m a creative software developer with a background in art and design, driven by the belief that technology can be both functional and expressive. I love crafting interfaces and tools that merge aesthetic 
         storytelling with technical precision — transforming data, systems, and ideas into experiences that feel intuitive and visually engaging. My work bridges software development, user experience, and art, 
         reflecting a constant pursuit of balance between creativity and clarity in everything I build.
@@ -832,6 +887,7 @@
 
   <footer class="py-12 text-center text-slate-500">© <span id="y"></span> Maisoon A Rahman</footer>
   <script>document.getElementById("y").textContent=new Date().getFullYear()</script>
+</div>
 </body>
 </html>
 
@@ -907,22 +963,22 @@
 </script>
 
 <script>
+  // show loader + block scroll
   document.documentElement.classList.add('loading');
 
-  const loader = document.getElementById('loader');
-  const barEl = document.getElementById('loader-bar');
-  const pctEl = document.getElementById('loader-percent');
+  const loader  = document.getElementById('loader');
+  const barEl   = document.getElementById('loader-bar');
+  const pctEl   = document.getElementById('loader-percent');
 
-  const MIN_TIME = 4000; // total loader duration = 4s (adjust between 3000–5000)
-  const FADE_MS = 600;
-  const start = performance.now();
+  const MIN_TIME = 4000; // 3k–5k as you like
+  const FADE_MS  = 600;
 
   let prog = 0, rafId;
 
   function setProgress(p) {
     const v = Math.max(0, Math.min(100, p));
     barEl.style.width = v + '%';
-    pctEl.textContent = Math.round(v) + '%';
+    if (pctEl) pctEl.textContent = Math.round(v) + '%';
   }
 
   function tweenTo(target, duration) {
@@ -939,20 +995,38 @@
     rafId = requestAnimationFrame(step);
   }
 
-  // Fake progress for the whole MIN_TIME period
+  // Fake progress across MIN_TIME
   const fakeTimer = setInterval(() => {
     const inc = (100 / (MIN_TIME / 300)) + Math.random() * 2;
     tweenTo(Math.min(100, prog + inc), 300);
     if (prog >= 100) clearInterval(fakeTimer);
   }, 300);
 
-  // End after MIN_TIME passes
+  function startReveals() {
+    // Phase 1: allow elements to paint in their start state (no flash because visibility was hidden)
+    document.documentElement.classList.add('prereveal');
+    const els = document.querySelectorAll('.reveal, .ransom-style-name');
+
+    // Phase 2: next frame, add .in so transitions run smoothly
+    requestAnimationFrame(() => {
+      els.forEach(el => el.classList.add('in'));
+      // optional: remove the prereveal flag after kicks off (keeps CSS clean)
+      requestAnimationFrame(() => {
+        document.documentElement.classList.remove('prereveal');
+      });
+    });
+  }
+
+  // Finish loader after MIN_TIME
   setTimeout(() => {
     tweenTo(100, 500);
-    loader.classList.add('done');
+    loader.classList.add('done');        // your fade/zoom CSS handles this
     setTimeout(() => {
       loader.remove();
+      // stop “loading” state so reveals can paint
       document.documentElement.classList.remove('loading');
+      // now begin the clean reveal sequence
+      startReveals();
     }, FADE_MS);
   }, MIN_TIME);
 </script>
