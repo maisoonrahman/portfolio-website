@@ -179,6 +179,42 @@
   pointer-events:none; z-index:20;
 }
 
+/* location, and other things under phone mockup */
+/* Top-of-screen overlay */
+.phone-screen-drop{
+  position:absolute;
+  inset: 0 6% auto 6%;          /* left/right gutters inside the screen */
+  box-sizing: border-box;
+  left:0; top:0;
+  width:100%;
+  /* Reserve only the upper band so it doesn't cover the face area */
+  padding: clamp(6px, 1.2vw, 16px) clamp(10px, 1.6vw, 18px);
+  display:flex; flex-direction:column; align-items:center; gap:.25rem;
+  pointer-events:none;                 /* never block hover */
+  opacity:0; transform: translateY(-18px);
+  animation: headerDrop 800ms cubic-bezier(.22,1,.36,1) .35s both;
+}
+
+/* Text styling that reads like iPhone UI but custom */
+.phone-screen-drop .line{
+  font-weight: 200;
+  font-size: clamp(16px, 2vw, 24px);
+  letter-spacing: .4px;
+  color: white;
+}
+.phone-screen-drop .line.small{
+  font-weight: 600;
+  font-size: clamp(12px, 1.6vw, 16px);
+}
+
+
+@keyframes headerDrop{
+  0%   { opacity:0; transform: translateY(-18px); }
+  60%  { opacity:1; transform: translateY(4px); }
+  100% { opacity:1; transform: translateY(0); }
+}
+
+
 /* Aura behind phone */
 .phone-aura{
   position:absolute; inset:-8%;
@@ -195,7 +231,27 @@
   opacity:0;
   transform:translate3d(90px,0,0) scale(.98);
   will-change: transform, opacity;
+  width: 100%;
+  max-width: none;
+  height: auto;
 }
+
+.phone-reveal img{
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (min-width: 1024px) {
+  #about {
+    align-items: stretch;
+  }
+  .phone-reveal {
+    height: 100%;
+  }
+}
+
+
 .phone-reveal.revealed { opacity: 1; transform: none; transition: opacity .45s ease, transform .45s ease; }
 .phone-reveal.in{
   animation: phoneSlideIn 820ms cubic-bezier(.22,1,.36,1) both;
@@ -329,7 +385,7 @@
 
   <!-- About -->
   <section id="about" class="relative py-24 paper-bg">
-    <div class="max-w-5xl mx-auto px-6 grid md:grid-cols-2 gap-8 items-center">
+    <div class="max-w-5xl mx-auto px-6 grid md:grid-cols-2 gap-8 items-start">
       <div>
         <h2 class="tape tape-purple rotate-s">About Me</h2>
         <p class="mt-4 text-slate-800">
@@ -371,7 +427,8 @@
       </div>
 
   <!-- Phone mockup from Canva -->
-  <div class="phone-reveal group relative mx-auto w-[30rem] floaty" 
+
+  <div class="phone-reveal group justify-center relative max-w-none w-[36rem] md:w-[40rem] lg:w-[40rem] lg:translate-x-1 lg:-mr-8 floaty" 
       style="animation-duration:8s;
               --sx:15%;  /* left  offset of screen window  */
               --sy:17%;  /* top   offset of screen window  */
@@ -383,14 +440,19 @@
     <div class="phone-aura" aria-hidden="true"></div>  
 
     <!-- Phone frame PNG (with transparent screen hole) -->
-    <img src="assets/phone-mockup.svg" alt="phone frame"
-        class="block w-full h-auto relative z-10 select-none pointer-events-none">
+    <img src="assets/phone-mockup.svg" alt="phone frame" class="block w-full h-auto relative z-10 select-none pointer-events-none">
     <div class="screen-origin" aria-hidden="'true">
+      <div class="phone-screen-drop">
+        <div class="line">📍 NY • OH • Dhaka</div>
+        <div class="line">💻 Full-Stack • Data • AI</div>
+      </div>
     <span class="spark" style="--x:50%; --y:88%; --delay:.05s"></span>
     <span class="spark" style="--x:78%; --y:60%; --delay:.15s"></span>
     <span class="spark" style="--x:92%; --y:90%; --delay:.15s"></span>
     <span class="spark" style="--x:28%; --y:38%; --delay:.25s"></span>
       </div></div>
+
+
 </div>
 
     </div>
@@ -485,6 +547,20 @@
             <li>Further applications include building a data visualization pipeline to give real insights to users.</li>
             <li>Check out our paper and code!</li>
           </ul>
+          <div class="mt-5 flex gap-4">
+              <a href="https://github.com/Asyaakkusss/Senior-Project-Modeling-Noah" target="_blank" rel="noopener noreferrer"
+                class="group relative p-5 rounded-2xl bg-white/0 transition-all duration-300 hover:scale-110 hover:shadow-[0_0_15px_rgba(99,102,241,0.4)]">
+                <img src="assets/GithubOctocat.svg" class="w-10 h-10 transition-transform duration-300 group-hover:scale-110" alt="GitHub">
+              </a>
+              <a href="assets/KalmanFilterPaper.pdf" target="_blank" rel="noopener noreferrer"
+              class="group relative p-5 rounded-2xl bg-white/0 transition-all duration-300 hover:scale-110 hover:shadow-[0_0_15px_rgba(236,72,153,0.4)]">
+                <img src="assets/resume.svg" alt="Paper" class="w-10 h-10 transition-transform duration-300 group-hover:scale-110">
+              </a>
+              <a href="assets/KalmanFilterPoster.pdf" target="_blank" rel="noopener noreferrer"
+              class="group relative p-5 rounded-2xl bg-white/0 transition-all duration-300 hover:scale-110 hover:shadow-[0_0_15px_rgba(236,72,153,0.4)]">
+                <img src="assets/resume.svg" alt="Paper" class="w-10 h-10 transition-transform duration-300 group-hover:scale-110">
+              </a>
+            </div>
         </article>
         <article class="card rounded-2xl p-6">
           <div class="text-2xl font-semibold">Melody Mapper</div>
@@ -508,6 +584,16 @@
             <li>Used the Spotify API to gather data.</li>
             <li>Check out our paper and code!</li>
           </ul>
+          <div class="mt-5 flex gap-4">
+              <a href="https://colab.research.google.com/drive/1iOAEl0k_pW1es9q90Xma3EZZgOC3z_D0" target="_blank"
+                class="group relative p-5 rounded-2xl bg-white/0 transition-all duration-300 hover:scale-110 hover:shadow-[0_0_15px_rgba(99,102,241,0.4)]">
+                <img src="assets/GithubOctocat.svg" class="w-10 h-10 transition-transform duration-300 group-hover:scale-110" alt="GitHub">
+              </a>
+              <a href="assets/MelodyMapperPresentation.pdf" target="_blank" rel="noopener noreferrer"
+              class="group relative p-5 rounded-2xl bg-white/0 transition-all duration-300 hover:scale-110 hover:shadow-[0_0_15px_rgba(236,72,153,0.4)]">
+                <img src="assets/resume.svg" alt="Paper" class="w-10 h-10 transition-transform duration-300 group-hover:scale-110">
+              </a>
+            </div>
         </article>
         <article class="card rounded-2xl p-6">
           <div class="text-2xl font-semibold">Paw-modoro Timer</div>
@@ -532,6 +618,14 @@
             <li>Implemented backend logic for long-term user data tracking and integrated REST APIs.</li>
             <li>Led Agile sprint planning and feature prioritization for a gamified productivity application.</li>
           </ul>
+
+          <div class="mt-5 flex gap-4">
+              <a href="https://github.com/Asyaakkusss/hungry-cat-main" target="_blank"
+                class="group relative p-5 rounded-2xl bg-white/0 transition-all duration-300 hover:scale-110 hover:shadow-[0_0_15px_rgba(99,102,241,0.4)]">
+                <img src="assets/GithubOctocat.svg" class="w-10 h-10 transition-transform duration-300 group-hover:scale-110" alt="GitHub">
+              </a>
+            </div>
+
         </article>
         <article class="card rounded-2xl p-6">
           <div class="text-2xl font-semibold">Nap Quest</div>
@@ -555,6 +649,18 @@
             <li> Collected and analyzed playtesting feedback to implement design changes that improved player retention and overall user
  engagement.</li>
             </ul>
+
+            <div class="mt-5 flex gap-4">
+              <a href="https://github.com/cwru-courses/SPRING2025ECSE290Team14" target="_blank"
+                class="group relative p-5 rounded-2xl bg-white/0 transition-all duration-300 hover:scale-110 hover:shadow-[0_0_15px_rgba(99,102,241,0.4)]">
+                <img src="assets/GithubOctocat.svg" class="w-10 h-10 transition-transform duration-300 group-hover:scale-110" alt="GitHub">
+              </a>
+              <a href="https://jdanninger.itch.io/nap-quest" target="_blank"
+              class="group relative p-5 rounded-2xl bg-white/0 transition-all duration-300 hover:scale-110 hover:shadow-[0_0_15px_rgba(236,72,153,0.4)]">
+                <img src="assets/Videogame.svg" alt="Paper" class="w-10 h-10 transition-transform duration-300 group-hover:scale-110">
+              </a>
+            </div>
+
         </article>
       </div>
     </div>
