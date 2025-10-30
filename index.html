@@ -137,7 +137,7 @@
 }
 
 
-    /* Global look */
+    /* ----------------------------------Global look----------------------------------------- */
     body{ background: var(--paper); color: var(--ink); }
     .ink { color: var(--ink); }
 
@@ -337,7 +337,27 @@
   .phone-reveal{ opacity:1; transform:none; }
 }
 
-    /* ---------------------------LOADER CSS-------------------------------  */
+/*----------------------------------------scroll animations----------------------------------------------------*/
+
+/* base */
+.sr{ opacity:0; will-change:transform,opacity; transition:
+      transform .6s var(--ease) var(--d,0s),
+      opacity   .6s var(--ease) var(--d,0s); }
+
+/* variants */
+.sr.fade   { transform: translateY(14px); }
+.sr.pop    { transform: translateY(14px) scale(.96); }
+
+/* when visible */
+.sr.in{ opacity:1; transform:none; }
+
+/* respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .sr{ transition:none; transform:none; opacity:1; }
+}
+
+
+    /* -------------------------------------------LOADER CSS----------------------------------------------  */
     /* keep page from flashing while loader shows (removed in JS) */
     html.loading { overflow: hidden; }
 
@@ -486,37 +506,37 @@ html.prereveal .ransom-style-name {
   <section id="about" class="relative py-24 paper-bg">
     <div class="max-w-5xl mx-auto px-6 grid md:grid-cols-2 gap-8 items-start">
       <div>
-        <h2 class="tape tape-purple rotate-s">About Me</h2>
-        <p class="mt-4 text-slate-800">
+        <h2 class="tape tape-purple rotate-s sr pop">About Me</h2>
+        <p class=" sr fade mt-4 text-slate-800">
           I’m a creative developer who blends software, data, and design to make
           useful tools and delightful experiences. My journey so far includes building
           full‑stack apps, experimenting with AI‑assisted workflows, and shipping
           polished UI that puts people first.
         </p>
-        <p class="mt-4 text-slate-800">
+        <p class="sr fade mt-4 text-slate-800">
           I enjoy projects where I can turn messy, complex ideas into clear,
           interactive stories. Always learning, always building.
         </p>
         <div class="mt-6 grid sm:grid-cols-2 gap-4">
-          <div class="card rounded-2xl p-5">
+          <div class="card sr pop rounded-2xl p-5">
             <div class="text-xl font-semibold">Education</div>
             <div class="mt-2 text-sm text-slate-800">
               B.S. in Computer Science • Case Western Reserve University 
             </div>
           </div>
-          <div class="card rounded-2xl p-5">
+          <div class="card sr pop rounded-2xl p-5">
             <div class="text-xl font-semibold">Experience</div>
             <div class="mt-2 text-sm text-slate-800">
               Frontend & full‑stack internships, data‑driven side projects
             </div>
           </div>
-          <div class="card rounded-2xl p-5">
+          <div class="card sr pop rounded-2xl p-5">
             <div class="text-xl font-semibold">Specialization</div>
             <div class="mt-2 text-sm text-slate-800">
               Data‑informed UX, full‑stack web, AI‑assisted development
             </div>
           </div>
-          <div class="card rounded-2xl p-5">
+          <div class="card sr pop rounded-2xl p-5">
             <div class="text-xl font-semibold">Interests</div>
             <div class="mt-2 text-sm text-slate-800">
               Webtoons & pop‑culture analytics, gamey interfaces, mixed‑media art
@@ -560,10 +580,10 @@ html.prereveal .ransom-style-name {
   <!-- Experience -->
   <section id="experience" class="py-24 paper-bg">
     <div class="max-w-5xl mx-auto px-6">
-      <h2 class="tape tape-blue rotate-m">Experience</h2>
+      <h2 class="tape sr pop tape-blue rotate-m">Experience</h2>
       <div class="mt-8 space-y-6">
         <!-- experience 1 -->
-        <div class="card rounded-2xl p-6">
+        <div class="card sr pop rounded-2xl p-6">
           <div class="flex flex-wrap items-center gap-3">
             <div class="text-2xl font-semibold">Frontend Intern | Millennium Information Solutions Ltd.</div>
             <div class="text-slate-800">Aug 2025 - Dec 2025 • Remote</div>
@@ -577,7 +597,7 @@ html.prereveal .ransom-style-name {
         </div>
         <!-- Duplicate the card above for more roles -->
          <!-- experience 2 -->
-         <div class="card rounded-2xl p-6">
+         <div class="card sr pop rounded-2xl p-6">
           <div class="flex flex-wrap items-center gap-3">
             <div class="text-2xl font-semibold">Software Engineer Intern | Federal Reserve Bank of Cleveland</div>
             <div class="text-slate-800">Jun 2024 - Nov 2024 • Cleveland, OH</div>
@@ -592,7 +612,7 @@ html.prereveal .ransom-style-name {
           </ul>
         </div>
         <!-- experience 3 -->
-        <div class="card rounded-2xl p-6">
+        <div class="card sr pop rounded-2xl p-6">
           <div class="flex flex-wrap items-center gap-3">
             <div class="text-2xl font-semibold">Backend Developer | SPiDLab at Case Western Reserve University</div>
             <div class="text-slate-800">May 2023 - May 2024 • Cleveland, OH</div>
@@ -604,7 +624,7 @@ html.prereveal .ransom-style-name {
           </ul>
         </div>
         <!-- experience 4 -->
-        <div class="card rounded-2xl p-6">
+        <div class="card sr pop rounded-2xl p-6">
           <div class="flex flex-wrap items-center gap-3">
             <div class="text-2xl font-semibold">Data Analyst & Research Assistant | Baker Lab at Cleveland Clinic</div>
             <div class="text-slate-800">Jun 2023 - Nov 2023 • Cleveland, OH</div>
@@ -621,9 +641,9 @@ html.prereveal .ransom-style-name {
   <!-- Projects -->
   <section id="projects" class="py-24 paper-bg">
     <div class="max-w-5xl mx-auto px-6">
-      <h2 class="tape tape-green rotate-l">My Projects</h2>
+      <h2 class="tape sr fade tape-green rotate-l">My Projects</h2>
       <div class="mt-8 grid sm:grid-cols-2 gap-6">
-        <article class="card rounded-2xl p-6">
+        <article class="card sr pop rounded-2xl p-6">
           <div class="text-2xl font-semibold">Biological Clock Ensemble using Kalman Filtering</div>
             <div class="space-y-3 mt-3">
             <!-- Role -->
@@ -661,7 +681,7 @@ html.prereveal .ransom-style-name {
               </a>
             </div>
         </article>
-        <article class="card rounded-2xl p-6">
+        <article class="card sr pop rounded-2xl p-6">
           <div class="text-2xl font-semibold">Melody Mapper</div>
           <div class="space-y-3 mt-3">
             <!-- Role -->
@@ -694,7 +714,7 @@ html.prereveal .ransom-style-name {
               </a>
             </div>
         </article>
-        <article class="card rounded-2xl p-6">
+        <article class="card sr pop rounded-2xl p-6">
           <div class="text-2xl font-semibold">Paw-modoro Timer</div>
           <div class="space-y-3 mt-3">
             <!-- Role -->
@@ -726,7 +746,7 @@ html.prereveal .ransom-style-name {
             </div>
 
         </article>
-        <article class="card rounded-2xl p-6">
+        <article class="card sr pop rounded-2xl p-6">
           <div class="text-2xl font-semibold">Nap Quest</div>
             <div class="space-y-3 mt-3">
             <!-- Role -->
@@ -768,9 +788,9 @@ html.prereveal .ransom-style-name {
   <!-- Skills -->
   <section id="skills" class="py-24 paper-bg">
     <div class="max-w-5xl mx-auto px-6">
-      <h2 class="tape tape-mint rotate-s">Skills & Expertise</h2>
+      <h2 class="tape sr pop tape-mint rotate-s">Skills & Expertise</h2>
       <div class="mt-8 grid md:grid-cols-2 gap-6">
-        <div class="card rounded-2xl p-6">
+        <div class="card sr pop rounded-2xl p-6">
           <div class="font-semibold">Programming</div>
           <div class="space-y-3 mt-4">
             <div class="flex items-center justify-between">
@@ -800,7 +820,7 @@ html.prereveal .ransom-style-name {
           </div>
 
         </div>
-        <div class="card rounded-2xl p-6">
+        <div class="card sr pop rounded-2xl p-6">
           <div class="font-semibold">Frameworks & Tools</div>
           <div class="space-y-3 mt-4">
             <div class="flex items-center justify-between">
@@ -841,7 +861,7 @@ html.prereveal .ransom-style-name {
             </div>
           </div>
         </div>
-        <div class="card rounded-2xl p-6">
+        <div class="card sr pop rounded-2xl p-6">
           <div class="font-semibold">Cloud & DevOps</div>
           <div class="space-y-3 mt-4">
             <div class="flex items-center justify-between">
@@ -877,9 +897,9 @@ html.prereveal .ransom-style-name {
   <!-- Contact -->
   <section id="contact" class="py-24 paper-bg">
     <div class="max-w-xl mx-auto px-6 text-center">
-      <h2 class="tape tape-yellow rotate-m">Get in Touch</h2>
-      <p class="mt-4 text-slate-700">
-        Email me at <a class="underline" href="mailto:maison@example.com">maison@example.com</a>.
+      <h2 class="tape sr pop tape-yellow rotate-m">Get in Touch</h2>
+      <p class="mt-4 sr fade text-slate-700">
+        Email me at <a class="underline" href="mailto:maisoon.a.rahman@gmail.com">maisoon.a.rahman@gmail.com</a>.
         Links above for GitHub and LinkedIn.
       </p>
     </div>
@@ -899,45 +919,45 @@ html.prereveal .ransom-style-name {
    ====================================================================================================================================================================
    ==================================================================================================================================================================== -->
 
-<!-- JS scripting -->
+<!-- 1) Phone “.in” reveal (no name collision) -->
 <script>
-  const io = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){
+(() => {
+  const phoneIO = new IntersectionObserver((entries, obs) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
         e.target.classList.add('in');
-        io.unobserve(e.target);          // run once
+        obs.unobserve(e.target); // run once
       }
     });
-  }, { threshold: .18 });
-  document.querySelectorAll('.phone-reveal').forEach(el=>io.observe(el));
+  }, { threshold: 0.18 });
+
+  document.querySelectorAll('.phone-reveal').forEach(el => phoneIO.observe(el));
+})();
 </script>
 
+<!-- 2) Phone sparkles module (kept self-contained) -->
 <script>
-(function(){
+(() => {
   const el = document.querySelector('.phone-reveal');
-  if(!el) return;
+  if (!el) return;
 
-  // Randomize each sparkle’s drift
   el.querySelectorAll('.spark').forEach(s => {
     s.style.setProperty('--dx', `${(Math.random()*24 - 12).toFixed(1)}px`);
     s.style.setProperty('--dy', `${(-22 - Math.random()*18).toFixed(1)}px`);
   });
 
-  // Reveal on first view
-  const io = new IntersectionObserver(entries => {
+  const firstViewIO = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) {
         el.classList.add('revealed');
-        // auto-fire sparkles once on reveal
         el.classList.add('inview');
         setTimeout(() => el.classList.remove('inview'), 1100);
       }
     });
   }, { threshold: 0.35 });
-  io.observe(el);
+  firstViewIO.observe(el);
 
-  // Re-trigger sparkles when scrolled into view again
-  const again = new IntersectionObserver(entries => {
+  const retriggerIO = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting && el.classList.contains('revealed')) {
         el.classList.add('inview');
@@ -945,88 +965,98 @@ html.prereveal .ransom-style-name {
       }
     });
   }, { threshold: 0.8 });
-  again.observe(el);
+  retriggerIO.observe(el);
 
-  // Mobile tap
   el.addEventListener('touchstart', () => {
     el.classList.add('inview');
     setTimeout(() => el.classList.remove('inview'), 1100);
   }, { passive:true });
 
-  // CSS hook so :hover OR .inview plays sparkles
   const style = document.createElement('style');
-  style.textContent = `
-    .phone-reveal.inview .spark { animation: sparkle-pop 1s ease-out var(--delay,0s) both; }
-  `;
+  style.textContent = `.phone-reveal.inview .spark{animation:sparkle-pop 1s ease-out var(--delay,0s) both}`;
   document.head.appendChild(style);
 })();
 </script>
 
+<!-- 3) Loader with fake duration + intro reveals -->
 <script>
-  // show loader + block scroll
+(() => {
   document.documentElement.classList.add('loading');
 
-  const loader  = document.getElementById('loader');
-  const barEl   = document.getElementById('loader-bar');
-  const pctEl   = document.getElementById('loader-percent');
+  const loader = document.getElementById('loader');
+  const barEl  = document.getElementById('loader-bar');
+  const pctEl  = document.getElementById('loader-percent');
 
-  const MIN_TIME = 4000; // 3k–5k as you like
+  const MIN_TIME = 4000;   // 3k–5k as desired
   const FADE_MS  = 600;
 
   let prog = 0, rafId;
-
-  function setProgress(p) {
+  function setProgress(p){
     const v = Math.max(0, Math.min(100, p));
-    barEl.style.width = v + '%';
+    if (barEl) barEl.style.width = v + '%';
     if (pctEl) pctEl.textContent = Math.round(v) + '%';
   }
-
-  function tweenTo(target, duration) {
-    const from = prog;
-    const t0 = performance.now();
+  function tweenTo(target, duration){
+    const from = prog, t0 = performance.now();
     cancelAnimationFrame(rafId);
-    function step(t) {
+    function step(t){
       const k = Math.min(1, (t - t0) / duration);
-      const ease = k < .5 ? 4*k*k*k : 1 - Math.pow(-2*k + 2, 3) / 2;
-      prog = from + (target - from) * ease;
+      const e = k < .5 ? 4*k*k*k : 1 - Math.pow(-2*k + 2, 3)/2;
+      prog = from + (target - from) * e;
       setProgress(prog);
       if (k < 1) rafId = requestAnimationFrame(step);
     }
     rafId = requestAnimationFrame(step);
   }
 
-  // Fake progress across MIN_TIME
   const fakeTimer = setInterval(() => {
-    const inc = (100 / (MIN_TIME / 300)) + Math.random() * 2;
+    const inc = (100 / (MIN_TIME / 300)) + Math.random()*2;
     tweenTo(Math.min(100, prog + inc), 300);
     if (prog >= 100) clearInterval(fakeTimer);
   }, 300);
 
-  function startReveals() {
-    // Phase 1: allow elements to paint in their start state (no flash because visibility was hidden)
+  function startReveals(){
     document.documentElement.classList.add('prereveal');
     const els = document.querySelectorAll('.reveal, .ransom-style-name');
-
-    // Phase 2: next frame, add .in so transitions run smoothly
     requestAnimationFrame(() => {
       els.forEach(el => el.classList.add('in'));
-      // optional: remove the prereveal flag after kicks off (keeps CSS clean)
-      requestAnimationFrame(() => {
-        document.documentElement.classList.remove('prereveal');
-      });
+      requestAnimationFrame(() => document.documentElement.classList.remove('prereveal'));
     });
   }
 
-  // Finish loader after MIN_TIME
   setTimeout(() => {
     tweenTo(100, 500);
-    loader.classList.add('done');        // your fade/zoom CSS handles this
+    if (loader) loader.classList.add('done');
     setTimeout(() => {
-      loader.remove();
-      // stop “loading” state so reveals can paint
+      if (loader) loader.remove();
       document.documentElement.classList.remove('loading');
-      // now begin the clean reveal sequence
       startReveals();
     }, FADE_MS);
   }, MIN_TIME);
+})();
+</script>
+
+<!-- 4) Scroll reveals (about text fade, cards pop) -->
+<script>
+(() => {
+  const srIO = new IntersectionObserver((entries, obs) => {
+    for (const e of entries) {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        obs.unobserve(e.target);
+      }
+    }
+  }, { threshold: 0.15, rootMargin: "0px 0px -10%" });
+
+  // Stagger within containers that declare data-stagger
+  document.querySelectorAll('[data-stagger]').forEach(box => {
+    box.querySelectorAll('.sr').forEach((el, i) => {
+      el.style.setProperty('--d', (i * 0.08) + 's');
+      srIO.observe(el);
+    });
+  });
+
+  // Any standalone items
+  document.querySelectorAll('.sr:not([style*="--d"])').forEach(el => srIO.observe(el));
+})();
 </script>
